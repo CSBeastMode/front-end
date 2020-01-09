@@ -28,7 +28,7 @@ const index = () => {
             showmsg: 'shows a message',
             alert: 'alert', popup: 'alert'
           }}
-          msg='Welcome to the Adventure.. Press help to see the command pallete'
+          msg='Welcome to the Adventure.. Press help to see the command pallette'
         />
       </Container>
     )
