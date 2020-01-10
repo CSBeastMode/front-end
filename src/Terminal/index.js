@@ -106,6 +106,34 @@ const Term = props => {
                 console.log(err.stack)
             }
         },
+        whisper: (args) => {
+            try {
+                const token = localStorage.getItem("token")
+                if (args.length === 1 || args.length === 2) {
+                    console.log(`Words do not come out.`)
+                } else {
+                    // remove first argument (which is the command itself)
+                    args.shift()
+                    const toPlayer = args[0]
+                    // remove first again (which is now username)
+                    args.shift()
+                    axios.post(
+                        `${url}/api/adv/whisper/`,
+                        {
+                            "message": `${args.join(' ')}`,
+                            "to": `${toPlayer}`
+                        },
+                        { headers: { Authorization: `Token ${token}`} }
+                    ).then(() => {
+                        console.log(`Your whisper is carried by the wind.`)
+                    }).catch(() => {
+                        console.log(`No one hears you.`)
+                    })
+                }
+            } catch (err) {
+                console.log(err.stack)
+            }
+        },
     }
 
     return (
@@ -121,9 +149,6 @@ const Term = props => {
             }}
             watchConsoleLogging
             commands={{
-                'open-google': () => window.open('https://www.google.com/', '_blank'),
-                showmsg: () => "What's really hood",
-                // popup: () => alert('Terminal in React'),
                 initialize: () => {
                     command.initialize()
                     setTitle(localStorage.getItem('title'))
@@ -139,16 +164,19 @@ const Term = props => {
                 },
                 shout: (args) => {
                     command.shout(args)
-                }
+                },
+                whisper: (args) => {
+                    command.whisper(args)
+                },
             }}
             descriptions={{
-                'open-google': 'opens google.com',
-                showmsg: 'shows a message',
-                // alert: 'alert', popup: 'alert',
                 initialize: 'starts the game',
-                move: 'change rooms'
+                move: 'change rooms | move <n, s, e, w>',
+                say: 'chat with other players in the room | say <message>',
+                shout: 'broadcast to all players | shout <message>',
+                whisper: 'whisper to a single player | whisper <username> <message>'
             }}
-            msg='Welcome to the Adventure.. Press help to see the command pallette'
+            msg='Welcome to the Adventure.. Type help to see the command pallette'
             />
         </Container>
     )
