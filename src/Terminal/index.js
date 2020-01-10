@@ -1,6 +1,6 @@
 import React, { useState, useContext} from 'react'
 import Terminal from 'terminal-in-react'
-// import commands  from './commands'
+import commands  from './commands'
 import { Container } from "./styles";
 
 import RoomContext from '../Contexts/roomContext'
@@ -79,7 +79,7 @@ const Term = props => {
             style={{ 
                 fontWeight: "bold", 
                 fontSize: "1em",
-                width:"49vw" 
+                width:"49vw"
             }}
             watchConsoleLogging
             commands={{
@@ -95,6 +95,10 @@ const Term = props => {
                     command.move(args)
                     setTitle(localStorage.getItem('title'))
                     console.log(title)
+                },
+                say: () => {
+                    command.say()
+                    console.log()
                 }
             }}
             descriptions={{
