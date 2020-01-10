@@ -4,11 +4,13 @@ import axios from 'axios'
 import { Container } from "./styles";
 
 import RoomContext from '../Contexts/roomContext'
+import UuidContext from '../Contexts/uuidContext'
 
 const url = `https://lambda-beastmode.herokuapp.com`
 
 const Term = props => {
     const {title, setTitle} = useContext(RoomContext)
+    const {uuid, setUuid} = useContext(UuidContext)
 
     // function to calculate correct response based on player availability
     const playerAmount = (data) => {
@@ -39,6 +41,7 @@ const Term = props => {
                     playerAmount(room)
                     localStorage.setItem("room", room)
                     setTitle(room.title)
+                    setUuid(room.uuid)
                 })
             } catch (err) {
                 console.log(err.stack)
@@ -160,7 +163,8 @@ const Term = props => {
             style={{ 
                 fontWeight: "bold", 
                 fontSize: "1em",
-                width:"49vw"
+                width:"49vw",
+                height: "45vh"
             }}
             watchConsoleLogging
             allowTabs={false}
