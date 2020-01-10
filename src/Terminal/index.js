@@ -1,16 +1,15 @@
 import React, { useState, useContext} from 'react'
 import Terminal from 'terminal-in-react'
-import commands  from './commands'
+import axios from 'axios'           
 import { Container } from "./styles";
 
 import RoomContext from '../Contexts/roomContext'
-import axios from 'axios'           
 
 const url = `https://lambda-beastmode.herokuapp.com`
 
 const Term = props => {
     const {title, setTitle} = useContext(RoomContext)
-    // const command = commands()
+    
     const command = {
         initialize: () => {
             try {
@@ -49,7 +48,7 @@ const Term = props => {
             try {
                 const token = localStorage.getItem("token")
                 axios.post(
-                    `${url}/api/adv/move/`, 
+                    `${url}/api/adv/move/`,
                     {"direction": `${direction}`},
                     { headers: {
                         Authorization: `Token ${token}`,
@@ -67,7 +66,20 @@ const Term = props => {
                 console.log(err.stack)
             }
         },
-        // say, 
+        say: (args) => {
+            try {
+                const token = localStorage.getItem("token")
+                axios.post(
+                    `${url}/api/adv/say/`,
+                    {"message": `${args[1]}`},
+                    { headers: { Authorization: `Token ${token}`} }
+                ).then(() => {
+                    console.log(`You speak to the room.`)
+                })
+            } catch (err) {
+                console.log(err.stack)
+            }
+        },
     }
 
     return (
@@ -96,9 +108,8 @@ const Term = props => {
                     setTitle(localStorage.getItem('title'))
                     console.log(title)
                 },
-                say: () => {
-                    command.say()
-                    console.log()
+                say: (args) => {
+                    command.say(args)
                 }
             }}
             descriptions={{
