@@ -61,7 +61,7 @@ export default function MediaCard(props) {
                 return "/Images/crewQuarters.jpg" 
             case 'Mess Hall':
                 return "/Images/messHall.jpg" 
-            case 'Weapons':
+            case 'Weapons Room':
                 return "/Images/weapons.jpg" 
             case 'Recreation Center':
                 return "/Images/recRoom.jpg" 
