@@ -44,43 +44,43 @@ export default function MediaCard(props) {
     const renderRoom = (rmName) => {
         switch (rmName) {
             case 'Engine Room':
-                return "../Images/purple-engine-room.jpg" 
+                return "/Images/purple-engine-room.jpg" 
             case 'Defense Center':
-                return "../Images/david-klingel-defense-room.jpg" 
+                return "/Images/defenseRoom.jpg" 
             case 'Command Center':
-                return "" 
-            case 'Captain Quaters':
-                return "" 
+                return "/Images/commandCenter.jpg" 
+            case 'Captain Quarters':
+                return "/Images/captainsQuarters.jpg" 
             case 'Bridge':
-                return "" 
+                return "/Images/bridge.jpg" 
             case 'Hallway':
-                return "../Images/david-klingel-defense-room.jpg" 
+                return "/Images/hallway.jpg" 
             case 'Bathroom':
-                return "" 
+                return "/Images/bathroom.jpg" 
             case 'Crew Cabin':
-                return "../Images/allen-zayden-crew-quarters.jpg" 
+                return "/Images/crewQuarters.jpg" 
             case 'Mess Hall':
-                return "" 
+                return "/Images/messHall.jpg" 
             case 'Weapons':
-                return "" 
+                return "/Images/weapons.jpg" 
             case 'Recreation Center':
-                return "" 
+                return "/Images/recRoom.jpg" 
             case 'Medical Bay':
-                return "../Images/qi-en-teo-2017-medical-bay.jpg" 
+                return "/Images/medBay.jpg" 
             default:
             
         }
     }
 
     // const title = localStorage.getItem('title')
-
+    const image = renderRoom(title)
     return (
         <Card className={classes.card}>
         <CardActionArea>
             <CardMedia
             className={classes.media}
-            // image={() => renderRoom(title)}
-            image='front-end/src/Images/purple-engine-room.jpg'
+            image={image}
+            // image='front-end/src/Images/purple-engine-room.jpg'
             // image="/static/images/cards/contemplative-reptile.jpg"
             // title="Contemplative Reptile"
             />
