@@ -1,10 +1,12 @@
 import React, { useContext, useState, useEffect } from 'react'
 import Pusher from 'pusher-js'
 
+import { Chatbox } from './styles'
+
 import UuidContext from '../Contexts/uuidContext'
 
 // Enable pusher logging - don't include this in production
-Pusher.logToConsole = true;
+// Pusher.logToConsole = true;
 
 const Chat = () => {
   const [pusher] = useState(
@@ -49,13 +51,13 @@ const Chat = () => {
     }
   }, [pusherMsg])
 
-  if (!uuid) return <div>initialize first</div>
+  if (!uuid) return <Chatbox><p>Initialize required.</p></Chatbox>
   return (
-    <div style={{height:'500px', width:'500px', backgroundColor:'pink', display:'flex', flexDirection:'column'}}>
+    <Chatbox>
       {messages.map(msg => (
         <p>{msg}</p>
       ))}
-    </div>
+    </Chatbox>
   )
 }
 
