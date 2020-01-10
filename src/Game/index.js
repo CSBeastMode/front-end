@@ -11,6 +11,7 @@ import {
 
 import Terminal from '../Terminal' 
 import Map from '../Map'
+import Chat from '../Chat'
 
 const Game = () => {
     const [title, setTitle] = useState('')
@@ -22,6 +23,7 @@ const Game = () => {
                     <Grid container spacing={0} >
                         <Grid item xs={12} s={12} >
                             <Bridge id='bridge' updateTitle={setTitle} title={title} />
+                            <Chat />
                         </Grid>
                         <Grid item xs={6} s={6} >
                             <Terminal id='term' updateTitle={setTitle} title={title} />
