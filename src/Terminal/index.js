@@ -1,4 +1,4 @@
-import React, { useState, useContext} from 'react'
+import React, { useContext } from 'react'
 import Terminal from 'terminal-in-react'
 import axios from 'axios'           
 import { Container } from "./styles";
@@ -9,6 +9,20 @@ const url = `https://lambda-beastmode.herokuapp.com`
 
 const Term = props => {
     const {title, setTitle} = useContext(RoomContext)
+
+    // function to calculate correct response based on player availability
+    const playerAmount = (data) => {
+        const numPlayers = data.players.length
+        if (numPlayers > 0) {
+            if (numPlayers === 1) {
+                console.log(`You see a person: ${data.players[0]}`)
+            } else {
+                console.log(`You see ${numPlayers}: ${data.players.reduce((player, players) => `${player}, ${players}`)}`)
+            }
+        } else {
+            console.log("You see no one.")
+        }
+    } 
     
     const command = {
         initialize: () => {
@@ -22,16 +36,7 @@ const Term = props => {
                     console.log(`WELCOME TO SPACE ${room.name}`)
                     console.log(`You are currently located at: ${room.x_coord}, ${room.y_coord} - ${room.title}`)
                     console.log(`You see: ${room.description}`)
-                    const numPlayers = room.players.length
-                    if (numPlayers > 0) {
-                        if (numPlayers === 1) {
-                            console.log(`You see a person: ${room.players[0]}`)
-                        } else {
-                            console.log(`You see ${numPlayers}: ${room.players.reduce((player, players) => `${player}, ${players}`)}`)
-                        }
-                    } else {
-                        console.log("You see no one")
-                    }
+                    playerAmount(room)
                     localStorage.setItem("room", room)
                     setTitle(room.title)
                 })
@@ -43,7 +48,6 @@ const Term = props => {
             const direction = args[1]
             if (!["n", "e", "s", "w"].includes(direction)) {
                 console.log("You must choose one of 4 directions: n s e w")
-                return
             }
             try {
                 const token = localStorage.getItem("token")
@@ -56,11 +60,22 @@ const Term = props => {
                     }}
                 ).then((res) => {
                     const room = res.data
-                    console.log(room)
-                    localStorage.setItem("room", room)
-                    localStorage.setItem('title', room.title)
-                    localStorage.setItem('description', room.description)
-                    setTitle(room.title)
+                    if (!room.error_msg) {
+                        console.log(`You are currently located at: ${room.x_coord}, ${room.y_coord} - ${room.title}`)
+                        console.log(`You see: ${room.description}`)
+                        playerAmount(room)
+                        localStorage.setItem("room", room)
+                        localStorage.setItem('title', room.title)
+                        localStorage.setItem('description', room.description)
+                        setTitle(room.title)
+                    } else {
+                        console.log(`You are unable to go that way.`)
+                        console.log(`You are currently located at: ${room.x_coord}, ${room.y_coord} - ${room.title}`)
+                        console.log(`You see: ${room.description}`)
+                        playerAmount(room)
+                    }
+                }).catch(() => {
+                    console.log(`You are unable to go that way.`)
                 })
             } catch (err) {
                 console.log(err.stack)
@@ -148,6 +163,7 @@ const Term = props => {
                 width:"49vw"
             }}
             watchConsoleLogging
+            allowTabs={false}
             commands={{
                 initialize: () => {
                     command.initialize()
