@@ -69,13 +69,39 @@ const Term = props => {
         say: (args) => {
             try {
                 const token = localStorage.getItem("token")
-                axios.post(
-                    `${url}/api/adv/say/`,
-                    {"message": `${args[1]}`},
-                    { headers: { Authorization: `Token ${token}`} }
-                ).then(() => {
-                    console.log(`You speak to the room.`)
-                })
+                if (args.length === 1) {
+                    console.log(`Words do not come out.`)
+                } else {
+                    // remove first argument (which is the command itself)
+                    args.shift()
+                    axios.post(
+                        `${url}/api/adv/say/`,
+                        {"message": `${args.join(' ')}`},
+                        { headers: { Authorization: `Token ${token}`} }
+                    ).then(() => {
+                        console.log(`You speak to the room.`)
+                    })
+                }
+            } catch (err) {
+                console.log(err.stack)
+            }
+        },
+        shout: (args) => {
+            try {
+                const token = localStorage.getItem("token")
+                if (args.length === 1) {
+                    console.log(`Words do not come out.`)
+                } else {
+                    // remove first argument (which is the command itself)
+                    args.shift()
+                    axios.post(
+                        `${url}/api/adv/shout/`,
+                        {"message": `${args.join(' ')}`},
+                        { headers: { Authorization: `Token ${token}`} }
+                    ).then(() => {
+                        console.log(`You yell at the top of your lungs.`)
+                    })
+                }
             } catch (err) {
                 console.log(err.stack)
             }
@@ -110,6 +136,9 @@ const Term = props => {
                 },
                 say: (args) => {
                     command.say(args)
+                },
+                shout: (args) => {
+                    command.shout(args)
                 }
             }}
             descriptions={{
